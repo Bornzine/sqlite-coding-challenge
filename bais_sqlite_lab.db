@@ -1,0 +1,283 @@
+SQLite format 3@  .c
+�+K�
+��
+��
+�	7�h��+a7}indexidx_products_categoryproductsCREATE INDEX idx_products_category ON products(category)n
+;#�indexidx_order_items_productorder_itemsCREATE INDEX idx_order_items_product ON order_items(product_id)h7#�indexidx_order_items_orderorder_items
+CREATE INDEX idx_order_items_order ON order_items(order_id)\3{indexidx_orders_customerordersCREATE INDEX idx_orders_customer ON orders(customer_id)o
+=�indexidx_employees_departmentemployeesCREATE INDEX idx_employees_department ON employees(department_id)�k	##�tableorder_itemsorder_items
+CREATE TABLE order_items(
+  id INTEGER PRIMARY KEY,
+  order_id INTEGER NOT NULL,
+  product_id INTEGER NOT NULL,
+  quantity INTEGER NOT NULL CHECK(quantity > 0),
+  unit_price REAL NOT NULL CHECK(unit_price >= 0),
+  FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY(product_id) REFERENCES products(id)
+)��{tableordersorders	CREATE TABLE orders(
+  id INTEGER PRIMARY KEY,
+  customer_id INTEGER NOT NULL,
+  order_date TEXT NOT NULL,
+  status TEXT CHECK(status IN ('Pending','Shipped','Delivered','Cancelled')) NOT NULL,
+  FOREIGN KEY(customer_id) REFERENCES customers(id)
+)�_�tableproductsproductsCREATE TABLE products(
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  price REAL NOT NULL CHECK(price >= 0),
+  active INTEGER NOT NULL DEFAULT 1 -- 1=true, 0=false
+)�
+�itablecustomerscustomersCREATE TABLE customers(
+  id INTEGER PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT UNIQUE,
+  loyalty_level TEXT CHECK(loyalty_level IN ('Bronze','Silver','Gold')) NOT NULL DEFAULT 'Bronze',
+  city TEXT
+)1Eindexsqlite_autoindex_customers_1customers�8�?tableemployeesemployeesCREATE TABLE employees(
+  id INTEGER PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT UNIQUE,
+  department_id INTEGER,
+  salary INTEGER NOT NULL,
+  hire_date TEXT NOT NULL, -- ISO date string
+  FOREIGN KEY(department_id) REFERENCES departments(id)
+)1Eindexsqlite_autoindex_employees_1employeest##�/tabledepartmentsdepartmentsCREATE TABLE departments(
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE
+)5I#indexsqlite_autoindex_departments_1departments
+������
+!OperationsIT
+FinanceMarketingSales
+������!OperationsITFinance
+Marketing	Sales
+
+^��Y��uB
+�
+�
+^9=!MayaBennettmaya.bennett@example.com��2017-03-0359	!LiamO'Nealliam.oneal@example.comި2024-04-225
+9!KiraPatelkira.patel@example.com�H2021-12-129	=!JamalRogersjamal.rogers@example.com�`2022-06-0615!IvyZhouivy.zhou@example.com��2023-09-0915!HankKimhank.kim@example.com�(2024-02-019=!FarahGarciafarah.garcia@example.comcx2018-07-1759!ElenaKhanelena.khan@example.comW�2019-05-01=A!DiegoMartinezdiego.martinez@example.com�2020-08-207;!CarolSinghcarol.singh@example.com��2021-11-0227	!BobLopezbob.lopez@example.com��2023-03-148=	!AliceNguyenalice.nguyen@example.com@2022-01-10
+�����tW>%���=maya.bennett@example.com9liam.oneal@example.com9kira.patel@example.com
+=jamal.rogers@example.com	5ivy.zhou@example.com5hank.kim@example.com=farah.garcia@example.com9elena.khan@example.comAdiego.martinez@example.com;carol.singh@example.com7bob.lopez@example.com=	alice.nguyen@example.com
+
+���\'���W
+�/
+9EmmaYoungemma.young@example.comGoldTampa8	=JacobFosterjacob.foster@example.comBronzeLakeland/5MiaParkmia.park@example.comSilverBrandon/9LucasHalelucas.hale@example.comGoldTampa69!AvaBrooksava.brooks@example.comBronzeClearwater49MasonDiazmason.diaz@example.comSilverSarasota3=SophiaAhmedsophia.ahmed@example.comGoldTampa5;EthanGomezethan.gomez@example.comBronzeOrlando<;)OliviaChenolivia.chen@example.comSilverSt. Petersburg-7NoahReednoah.reed@example.comGoldTampa
+
+�\��Aw(���9emma.young@example.com
+=jacob.foster@example.com	5mia.park@example.com9lucas.hale@example.com9ava.brooks@example.com9mason.diaz@example.com=sophia.ahmed@example.com;ethan.gomez@example.com;olivia.chen@example.com7	noah.reed@example.com
+u���sM���u#
+-#	Espresso MachineElectronics�%	-	Coffee Beans 1lbGrocery@,��G�{.9!	Ballpoint Pens (10 pk)Stationery@�\(�$%!	Notebook SetStationery@)4C#	Noise-Cancelling HeadphonesElectronics@h�fffff$##	USB-C CableElectronics@#��G�{'	Standing DeskFurniture�%	Office ChairFurniture�')#	Wireless MouseElectronics@8�p��
+=#!#	Laptop 14"Electronics@���R
+2
+�����}dI.�����sZ?$
+
+�
+�
+�
+�
+�
+o
+V
+;
+ 
+�����hO6����gL1
+�
+�2	!2024-09-15Delivered1!2024-10-06Delivered0!2024-09-26Delivered/!2024-10-13Delivered.!
+2024-09-20Cancelled-	!2024-10-16Shipped,!	2024-09-19Delivered+!2024-09-02Shipped*!2024-10-06Pending)!2024-10-03Delivered(!	2024-09-20Shipped'!	2024-09-02Delivered&!2024-10-02Delivered%!
+2024-09-13Pending$!2024-10-21Shipped#!
+2024-09-06Delivered"!
+2024-09-09Delivered!!2024-09-08Pending !2024-11-02Shipped!2024-11-02Delivered	!2024-11-09Delivered!2024-11-08Delivered!2024-10-14Delivered!2024-10-23Delivered!2024-10-23Shipped!	2024-10-01Shipped	!2024-09-30Pending!	2024-09-30Delivered!	2024-10-28Shipped!2024-10-04Delivered!2024-09-09Cancelled	!2024-10-01Delivered!	2024-11-07Delivered!2024-11-04Delivered!2024-09-15Shipped!	2024-09-02Delivered!2024-09-21Delivered
+!
+2024-10-25Delivered!2024-10-21Delivered!2024-10-22Shipped
+!	2024-09-29Delivered	!2024-11-08Delivered!2024-09-21Delivered!2024-10-08Cancelled!2024-10-19Shipped!2024-10-14Shipped!	2024-10-24Shipped!2024-09-30Delivered!	2024-09-12Delivered!2024-09-04Delivered
+y
+�������wdR?2&�������wj^K8&
+�
+�
+�
+�
+�
+�
+�
+
+l
+`
+N
+<
+)
+
+�������lZM@3!��������}jWK>,
+�
+�
+�
+�
+�
+�
+�
+�
+z
+h
+U
+B
+5
+"
+	�	�	�	�	�	�	�	�	n	\	I	6	#		��������ubO</
+y2@8�p��
+=x	2@#��G�{w2�v1	@,��G�{u1	@,��G�{t1@h�fffffs0�r	0@���R
+q	0�p0@h�fffffo	/@���Rn/@8�p��
+=m/�l/�k	.@)
+j	.�i-	@,��G�{h-@8�p��
+=g,@#��G�{f+@h�fffffe	+	@,��G�{d*@�\(�c	*@#��G�{b*�a)@8�p��
+=`(@#��G�{_	(@h�fffff^'@8�p��
+=]	'@#��G�{\	'@8�p��
+=[&@#��G�{Z&@�\(�Y%�X%	@,��G�{W$@�\(�V	$@8�p��
+=U$@�\(�T	#@h�fffffS	#@#��G�{R#	@,��G�{Q#
+�
+P	"
+�O	"@)
+N	!�M	!	@,��G�{
+L	!�K!	@,��G�{J	 	@,��G�{I 
+�
+H	 �G@�\(�F@)E	@)D		@���R
+C	�B		@,��G�{A@8�p��
+=@	@�\(�?�
+>	�=	@8�p��
+=<@);	@�\(�:
+�9�8�7	@h�fffff6@8�p��
+=5	@���R4@8�p��
+=3@h�fffff2@#��G�{1�0�/@�\(�.�-@8�p��
+=,	@#��G�{+@8�p��
+=*	@�\(�)	@h�fffff
+(	�'	@,��G�{&@#��G�{%	@�\(�$	@,��G�{#	@,��G�{"
+�!@)
+ 	
+�		
+@���R	
+@�\(�
+�	
+@h�fffff@#��G�{	@,��G�{
+	��	@h�fffff
+�
+	
+�	@#��G�{	@�\(�@8�p��
+=@#��G�{@#��G�{@8�p��
+=	@8�p��
+=
+
+	
+�
+�@�\(�
+	@#��G�{	@h�fffff@8�p��
+=	@#��G�{@)		@���R		@,��G�{		@���R	@8�p��
+=			�
+�������������	
+				
+2��sP���� ��������U�,���>�a[JD��g�����~xm��82&�	210/
+.	-	,+*)	(	'&
+%$
+#
+"! 								
+
+	
+				
+y
+-���������������������ysmga[UOIC=71+%
+���������������������}wqke_YSMGA;5/)#
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+�
+{
+u
+o
+i
+c
+]
+W
+Q
+K
+E
+?
+9
+3
+-2y2x2w1v1u1t0s0r0q0p/o/n/m/l.k.j-i-h,g+f+e*d*c*b)a(`(_'^']'\&[&Z%Y%X$W$V$U#T#S#R#Q"P"O!N!M!L!K J I HGFEDCBA@?>=<;:9876543210/.-,+*)('&%$#"! 
+
+
+
+
+		
+
+				
+y
+2��J�n
+m
+\���������
+�
+�
+�
+�
+r
+2smU���>2
+�
+�
+�
+x
+>������sV
+~
+a
+V�����a ��
+�
+�
+�
+�
+�
+8�y[��
+�
+�
+g
+P�>�hb,
+���O&���\
+�
+�
+��g2,yJD8
+�
+�
+�
+J
+D��D8�P& yxw	v	uts	rqp	onmlkj	ihgf	edcba`_^]\[ZY	XWVUTS	R
+Q
+PON	ML	K	J
+IHGFE	DC	BA@?>=<;
+:9876	543210/.-,+*)(	'&%	$	#
+"!
+ 		
+
+
+
+
+					
+
+k����k��{��#Electronics
+Grocery	!Stationery!Stationery#Electronics#Electronics
+Furniture
+Furnitur
